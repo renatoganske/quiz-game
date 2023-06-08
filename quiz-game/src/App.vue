@@ -14,7 +14,6 @@
 
 <script>
 
-
 export default {
   name: 'App',
 
@@ -29,7 +28,7 @@ export default {
   computed: {
     answers() {
       var answers = JSON.parse(JSON.stringify(this.incorrectAnswers));
-      answers.push(this.correctAnswer);
+      answers.splice(Math.round(Math.random() * 4), 0, this.correctAnswer);
       return answers;
     }
   },
