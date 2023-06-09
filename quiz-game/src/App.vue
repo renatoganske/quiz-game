@@ -7,13 +7,14 @@
       </h1>
 
       <template v-for="(answer, index) in this.answers" :key="index">
-        <input type="radio" name="options" value="answer">
+        <input type="radio" name="options" :value="answer" v-model="this.chosen_answer">
         <label v-html="answer"></label><br>
       </template>
 
+      <button @click="this.submitAnswer()" class="send" type="button">Enviar</button>
+
     </template>
 
-    <button class="send" type="button">Enviar</button>
   </div>
 </template>
 
@@ -26,10 +27,24 @@ export default {
     return {
       question: undefined,
       incorrectAnswers: undefined,
-      correctAnswer: undefined
+      correctAnswer: undefined,
+      chosen_answer: undefined
     }
   },
 
+  methods: {
+
+    submitAnswer() {
+      if (!this.chosen_answer) {
+        alert('Escolhe uma das opções.');
+      } else {
+        if (this.chosen_answer == this.correctAnswer) {
+          alert('A resposta está correta')
+        }
+      }
+    }
+
+  },
   computed: {
     answers() {
       var answers = JSON.parse(JSON.stringify(this.incorrectAnswers));
@@ -37,6 +52,7 @@ export default {
       return answers;
     }
   },
+
   created() {
     this.axios
       .get('https://opentdb.com/api.php?amount=1&category=18')
